@@ -1,8 +1,14 @@
-import React, { useRef, useEffect, useCallback, useState ,useContext} from "react";
+import React, {
+  useRef,
+  useEffect,
+  useCallback,
+  useState,
+  useContext,
+} from "react";
 import { useSpring, animated } from "react-spring";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
-import  { AdminContext } from "../../ContextAPI/AdminProvider";
+import { AdminContext } from "../../ContextAPI/AdminProvider";
 
 const Background = styled.div`
   width: 100%;
@@ -10,7 +16,7 @@ const Background = styled.div`
   background: rgba(0, 0, 0, 0.8);
   position: absolute;
   left: 500px;
-  top:300px;
+  top: 300px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -86,16 +92,12 @@ const CloseModalButton = styled(MdClose)`
   z-index: 10;
 `;
 
-const LoginForm = ({
-  showModal,
-  setShowModal,
-  isLoggedIn, SetLoggedIn
-}) => {
+const LoginForm = ({ showModal, setShowModal }) => {
   const modalRef = useRef();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isAdmin] = useContext(AdminContext)
-  
+  const [isAdmin, setAdmin] = useContext(AdminContext);
+  const [isValid, setValidCheck] = useState("true");
 
   const animation = useSpring({
     config: {
@@ -115,7 +117,7 @@ const LoginForm = ({
     (e) => {
       if (e.key === "Escape" && showModal) {
         setShowModal(false);
-        console.log("I pressed"); 
+        console.log("I pressed");
       }
     },
     [setShowModal, showModal]
@@ -126,7 +128,7 @@ const LoginForm = ({
     return () => document.removeEventListener("keydown", keyPress);
   }, [keyPress]);
 
-  const CheckUserIsAdmin = (e,isAdmin) => {
+  const CheckUserIsAdmin = (e) => {
     e.preventDefault();
 
     fetch("http://localhost:9000/login", {
@@ -149,17 +151,18 @@ const LoginForm = ({
 
       // Displaying results to console
       .then((json) => {
-        isAdmin=json.isAdmin;
-        console.log(isAdmin)
+        const checkAdmin = json.isAdmin;
+        setAdmin(checkAdmin);
+        localStorage.setItem("isAdmin", JSON.stringify(checkAdmin));
+        setValidCheck(checkAdmin);
       });
-      
-      SetLoggedIn(!isLoggedIn)
   };
 
   const LoginAsAdmin = (
-    <form method="post" onSubmit={(e)=>CheckUserIsAdmin(e,isAdmin)}>
+    <form method="post" onSubmit={(e) => CheckUserIsAdmin(e)}>
       <label>Email Id:</label>
       <FormInput
+        required
         type="email"
         name="email"
         value={email}
@@ -173,14 +176,16 @@ const LoginForm = ({
         name="name"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        required
       />
       <br />
-      <br/>
-      <SubmitButton type="submit" value="Login"/>
+      <br />
+      <SubmitButton type="submit" value="Login" />
+      {isValid ? " " : <p>Incorrect email or password</p>}
     </form>
   );
 
-  const LoginSuccessMessage = <h1> Sucessfully LoggedIn</h1>;
+  const LoginSuccessMessage = <h1> You are Sucessfully Logged In</h1>;
 
   return (
     <>
@@ -189,8 +194,7 @@ const LoginForm = ({
           <animated.div style={animation}>
             <ModalWrapper showModal={showModal}>
               <ModalContent>
-             
-                {isLoggedIn ? LoginSuccessMessage: LoginAsAdmin} 
+                {isAdmin ? LoginSuccessMessage : LoginAsAdmin}
               </ModalContent>
               <CloseModalButton
                 aria-label="Close modal"

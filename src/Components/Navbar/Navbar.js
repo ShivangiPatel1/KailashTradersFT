@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect , useContext } from "react";
 import {
   Nav,
   NavbarContainer,
@@ -14,15 +14,19 @@ import { FaTimes, FaBars } from "react-icons/fa";
 import { Button } from "../../GlobalStyles";
 import KailashTradersLogo from "../../images/KailashTradersLogo.png";
 import LoginForm from "./LoginForm";
+import { AdminContext } from "../../ContextAPI/AdminProvider";
 
 const Navbar = () => {
   const [isMobileMenu, setMobileMenu] = useState(false);
   const [isFullScreen, setFullScreen] = useState(true);
   const [isLoggedIn, SetLoggedIn] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [isAdmin,setAdmin] = useContext(AdminContext);
   const openModal = () => {
     setShowLogin(true);
-    //SetLoggedIn(false);
+  };
+  const LogOut = () => {
+    localStorage.setItem("isAdmin", JSON.stringify(false));
   };
 
   const HandleMobileMenu = () => setMobileMenu(!isMobileMenu);
@@ -58,11 +62,35 @@ const Navbar = () => {
             <MenuList>
               <MenuLinks to="/Products">Products</MenuLinks>
             </MenuList>
+            <MenuList>
+              <MenuLinks to="/Documentation">Documentation</MenuLinks>
+            </MenuList>
+            <MenuList>
+              <MenuLinks to="/Sources">Sources</MenuLinks>
+            </MenuList>
             <MenuButton>
               {isFullScreen ? (
-            
+               isAdmin ? (
+                  <Button primary onClick={() => LogOut()}>
+                    LOG OUT
+                  </Button>
+                ) : (
+                  <div>
+                    <Button primary onClick={() => openModal()}>
+                      LOG IN
+                    </Button>
+                    <LoginForm
+                      showModal={showLogin}
+                      setShowModal={setShowLogin}
+                      SetLoggedIn={SetLoggedIn}
+                    />
+                  </div>
+                )
+              ) : (
                 <div>
-                  <Button primary onClick={() => openModal()}>SIGN UP</Button>
+                  <Button fontBig primary>
+                    Log In
+                  </Button>
                   <LoginForm
                     showModal={showLogin}
                     setShowModal={setShowLogin}
@@ -70,10 +98,6 @@ const Navbar = () => {
                     SetLoggedIn={SetLoggedIn}
                   />
                 </div>
-              ) : (
-                <Button fontBig primary>
-                  Sign UP
-                </Button>
               )}
             </MenuButton>
           </Menu>

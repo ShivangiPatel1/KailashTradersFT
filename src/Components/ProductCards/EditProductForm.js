@@ -15,19 +15,13 @@ const Background = styled.div`
 
 const ModalWrapper = styled.div`
   width: 400px;
-  height: 500px;
+  height: 300px;
   box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
   background: #88bdbc;
   color: #fff;
   position: relative;
   z-index: 10;
   border-radius: 10px;
-`;
-
-const ModalImg = styled.img`
-  width: 100%;
-  height: 100%;
-  border-radius: 10px 0 0 10px;
 `;
 
 const ModalContent = styled.div`
@@ -48,12 +42,13 @@ const ModalContent = styled.div`
 `;
 const FormInput = styled.input`
   float: right;
-  padding: 10px 24px;
+  padding: 10px;
   background: #fff;
   color: #000;
   border: none;
   border-radius: 5px;
   margin: 2px;
+  height: 25px;
 `;
 const SubmitButton = styled.input`
   border: none;
@@ -87,13 +82,14 @@ const EditModal = ({
   showModal,
   setShowModal,
   isProductEdited,
-  SetProductEdited,id,
+  SetProductEdited,
+  id,
 }) => {
   const modalRef = useRef();
   const [code, setCode] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
-  const [image,setImage]=useState("")
+  const [image, setImage] = useState("");
 
   const animation = useSpring({
     config: {
@@ -124,7 +120,7 @@ const EditModal = ({
     return () => document.removeEventListener("keydown", keyPress);
   }, [keyPress]);
 
-  const EditProduct = (e,id) => {
+  const EditProduct = (e, id) => {
     e.preventDefault();
 
     fetch(`http://localhost:9000/product/${id}`, {
@@ -133,7 +129,7 @@ const EditModal = ({
 
       // Adding body or contents to send
       body: JSON.stringify({
-        url:image,
+        url: image,
         code: code,
         name: name,
         price: price,
@@ -152,9 +148,10 @@ const EditModal = ({
   };
 
   const EditProductForm = (
-    <form method="post" onSubmit={(e) => EditProduct(e,id)}>
-    <label>Image:</label>
+    <form method="post" onSubmit={(e) => EditProduct(e, id)}>
+      <label>Image:</label>
       <FormInput
+        required
         type="text"
         name="code"
         value={image}
@@ -162,15 +159,17 @@ const EditModal = ({
       />
       <label>Product Code:</label>
       <FormInput
+        required
         type="text"
         name="code"
         value={code}
         onChange={(e) => setCode(e.target.value)}
       />
       <br />
-      <br />
+
       <label>Product Name: </label>
       <FormInput
+        required
         type="text"
         name="name"
         value={name}
@@ -180,6 +179,7 @@ const EditModal = ({
       <br />
       <label>Cost:</label>
       <FormInput
+        required
         type="text"
         name="price"
         value={price}
