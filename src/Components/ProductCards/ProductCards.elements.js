@@ -38,7 +38,7 @@ export const Img = styled.img`
   object-fit: cover;
 `;
 
-export const Title = styled.h1`
+export const Title = styled.h2`
   padding: 1rem;
 `;
 
@@ -73,8 +73,14 @@ export const DeleteButton = styled(Button)`
     background: #4f4a41;
   }
 `;
-
+export const AddProductButton = styled(Button)`
+  
+  margin:20px 20px 20px 100px;
+  &:hover {
+    background: #4f4a41;
+  }
+`;
 export const Price = styled.p`
   color: grey;
-  font-size: 22px;
+  font-size: 18px;
 `;

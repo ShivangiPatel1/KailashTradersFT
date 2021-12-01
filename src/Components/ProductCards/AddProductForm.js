@@ -15,7 +15,7 @@ const Background = styled.div`
 
 const ModalWrapper = styled.div`
   width: 400px;
-  height: 500px;
+  height: 300px;
   box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
   background: #88bdbc;
   color: #fff;
@@ -48,12 +48,13 @@ const ModalContent = styled.div`
 `;
 const FormInput = styled.input`
   float: right;
-  padding: 10px 24px;
+  padding: 10px;
   background: #fff;
   color: #000;
   border: none;
   border-radius: 5px;
   margin: 2px;
+  height: 25px;
 `;
 const SubmitButton = styled.input`
   border: none;
@@ -133,7 +134,7 @@ const Modal = ({
 
       // Adding body or contents to send
       body: JSON.stringify({
-        url:image,
+        url: image,
         code: code,
         name: name,
         price: price,
@@ -154,8 +155,9 @@ const Modal = ({
 
   const AddProductForm = (
     <form method="post" onSubmit={(e) => addProduct(e)}>
-    <label>Image:</label>
+      <label>Image:</label>
       <FormInput
+        required
         type="text"
         name="code"
         value={image}
@@ -163,15 +165,17 @@ const Modal = ({
       />
       <label>Product Code:</label>
       <FormInput
+        required
         type="text"
         name="code"
         value={code}
         onChange={(e) => setCode(e.target.value)}
       />
       <br />
-      <br />
+
       <label>Product Name: </label>
       <FormInput
+        required
         type="text"
         name="name"
         value={name}
@@ -181,6 +185,7 @@ const Modal = ({
       <br />
       <label>Cost:</label>
       <FormInput
+        required
         type="text"
         name="price"
         value={price}

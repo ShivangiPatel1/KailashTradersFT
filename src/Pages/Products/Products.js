@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useContext} from "react";
 
 import AllProducts from "./ProductCardFeatures";
-import { Button } from "../../GlobalStyles";
+import { AddProductButton } from "../../Components/ProductCards/ProductCards.elements";
 import Modal from "../../Components/ProductCards/AddProductForm";
-import AdminProvider from "../../ContextAPI/AdminProvider"
+import AdminProvider from "../../ContextAPI/AdminProvider";
+import { AdminContext } from "../../ContextAPI/AdminProvider";
 
 const Products = () => {
   const [appState, setAppState] = useState({
@@ -12,6 +13,13 @@ const Products = () => {
   });
   const [isProductAdded, SetProductAdded] = useState(false);
   const [showAddProduct, setShowAddProduct] = useState(false);
+  const [isAdmin,setAdmin]=useContext(AdminContext);
+  useEffect(()=>{
+    const data =localStorage.getItem('isAdmin');
+    if(data){
+      setAdmin(JSON.parse(data))
+    }
+  },[isAdmin])
   const openModal = () => {
     setShowAddProduct((prev) => !prev);
     SetProductAdded(false);
@@ -31,7 +39,7 @@ const Products = () => {
     <>
     <AdminProvider>
       <div>
-        <Button onClick={openModal}>Add Product</Button>
+        {isAdmin?<AddProductButton onClick={openModal}>Add Product</AddProductButton>:<></>}
         <Modal
           showModal={showAddProduct}
           setShowModal={setShowAddProduct}
