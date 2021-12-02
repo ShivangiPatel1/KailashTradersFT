@@ -9,6 +9,7 @@ import { useSpring, animated } from "react-spring";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
 import { AdminContext } from "../../ContextAPI/AdminProvider";
+import {useHistory} from 'react-router-dom';
 
 const Background = styled.div`
   width: 100%;
@@ -31,12 +32,6 @@ const ModalWrapper = styled.div`
   position: relative;
   z-index: 10;
   border-radius: 10px;
-`;
-
-const ModalImg = styled.img`
-  width: 100%;
-  height: 100%;
-  border-radius: 10px 0 0 10px;
 `;
 
 const ModalContent = styled.div`
@@ -98,6 +93,7 @@ const LoginForm = ({ showModal, setShowModal }) => {
   const [password, setPassword] = useState("");
   const [isAdmin, setAdmin] = useContext(AdminContext);
   const [isValid, setValidCheck] = useState("true");
+  let history=useHistory();
 
   const animation = useSpring({
     config: {
@@ -180,7 +176,7 @@ const LoginForm = ({ showModal, setShowModal }) => {
       />
       <br />
       <br />
-      <SubmitButton type="submit" value="Login" />
+      <SubmitButton type="submit" value="Login" onClick={()=>history.push("/Products")}/>
       {isValid ? " " : <p>Incorrect email or password</p>}
     </form>
   );

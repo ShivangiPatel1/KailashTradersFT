@@ -9,10 +9,12 @@ import {
 } from "./ProductCards.elements";
 import EditModal from "./EditProductForm";
 import { AdminContext } from "../../ContextAPI/AdminProvider";
+import { useHistory } from "react-router";
 const ProductCards = ({ url, title, price, id }) => {
   const [showEditProduct, setShowEditProduct] = useState(false);
   const [isProductEdited, SetProductEdited] = useState(false);
   const [isAdmin, setAdmin] = useContext(AdminContext);
+  let history = useHistory();
 
   useEffect(() => {
     const data = localStorage.getItem("isAdmin");

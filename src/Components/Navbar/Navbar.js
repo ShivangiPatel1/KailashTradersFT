@@ -15,6 +15,7 @@ import { Button } from "../../GlobalStyles";
 import KailashTradersLogo from "../../images/KailashTradersLogo.png";
 import LoginForm from "./LoginForm";
 import { AdminContext } from "../../ContextAPI/AdminProvider";
+import { useHistory } from "react-router";
 
 const Navbar = () => {
   const [isMobileMenu, setMobileMenu] = useState(false);
@@ -22,11 +23,13 @@ const Navbar = () => {
   const [isLoggedIn, SetLoggedIn] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [isAdmin,setAdmin] = useContext(AdminContext);
+  let history = useHistory()
   const openModal = () => {
     setShowLogin(true);
   };
   const LogOut = () => {
     localStorage.setItem("isAdmin", JSON.stringify(false));
+    history.push("/");
   };
 
   const HandleMobileMenu = () => setMobileMenu(!isMobileMenu);
