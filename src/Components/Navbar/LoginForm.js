@@ -127,7 +127,7 @@ const LoginForm = ({ showModal, setShowModal }) => {
   const CheckUserIsAdmin = (e) => {
     e.preventDefault();
 
-    fetch("http://localhost:9000/login", {
+    fetch("https://kailashtraders.herokuapp.com/login", {
       // Adding method type
       method: "POST",
 

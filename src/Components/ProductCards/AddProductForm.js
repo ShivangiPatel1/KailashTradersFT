@@ -128,7 +128,7 @@ const Modal = ({
   const addProduct = (e) => {
     e.preventDefault();
 
-    fetch("http://localhost:9000/product", {
+    fetch("https://kailashtraders.herokuapp.com/product", {
       // Adding method type
       method: "POST",
 
