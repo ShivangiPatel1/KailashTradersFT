@@ -19,14 +19,14 @@ const Products = () => {
     if(data){
       setAdmin(JSON.parse(data))
     }
-  },[isAdmin])
+  },[])
   const openModal = () => {
     setShowAddProduct((prev) => !prev);
     SetProductAdded(false);
   };
   useEffect(() => {
     setAppState({ loading: true });
-    const URL = "http://localhost:9000/product";
+    const URL = "https://kailashtraders.herokuapp.com/product";
     fetch(URL)
       .then((res) => res.json())
       .then((data) => {

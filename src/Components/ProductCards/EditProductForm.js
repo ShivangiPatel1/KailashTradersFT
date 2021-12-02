@@ -123,7 +123,7 @@ const EditModal = ({
   const EditProduct = (e, id) => {
     e.preventDefault();
 
-    fetch(`http://localhost:9000/product/${id}`, {
+    fetch(`https://kailashtraders.herokuapp.com/product/${id}`, {
       // Adding method type
       method: "POST",
 
