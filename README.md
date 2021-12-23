@@ -1,2 +1,2 @@
 # KailashTradersFT
-Fronted for Kailash Traders
+Frontend for Kailash Traders
